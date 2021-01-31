@@ -1,0 +1,17 @@
+%T Testing display environments
+
+\usemodule[filter]
+
+\defineexternalfilter 
+  [markdown]
+  [prefix={something-},
+   purge=no,
+   filter={pandoc -w context -o \externalfilteroutputfile }]
+
+\starttext
+\startmarkdown
+Does **markdown** _work_?
+\stopmarkdown
+\stoptext
+\endinput
+
