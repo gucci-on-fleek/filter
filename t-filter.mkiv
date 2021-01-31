@@ -45,7 +45,6 @@
 
 \def\externalfilter@id          {externalfilter}
 
-\def\externalfilter@temp_prefix {temp}
 \def\externalfilter@count       {\????externalfilter-\currentexternalfilter-counter}
 
 \definenamespace
@@ -366,12 +365,12 @@
 
    % Set the name of temp file for the filter
    \doifinsetelse{\externalfilterparameter\c!cache}{\v!yes,\v!force}
-        {\edef\externalfilter@buffer_name{\externalfilter@temp_prefix-\currentexternalfilter-\csname\externalfilter@count\endcsname}}
-        {\edef\externalfilter@buffer_name{\externalfilter@temp_prefix-\currentexternalfilter}}
+        {\edef\externalfilter@buffer_name{\currentexternalfilter-\csname\externalfilter@count\endcsname}}
+        {\edef\externalfilter@buffer_name{\currentexternalfilter}}
    \doifsomething{\externalfilterparameter\c!name}
-        {\edef\externalfilter@buffer_name{\externalfilter@temp_prefix-\currentexternalfilter-\externalfilterparameter\c!name}}
+        {\edef\externalfilter@buffer_name{\currentexternalfilter-\externalfilterparameter\c!name}}
    \doif{\externalfilterparameter\c!write}\v!no
-        {\edef\externalfilter@buffer_name{\externalfilter@temp_prefix-\currentexternalfilter-\externalfilterparameter{\c!cache\c!option}}}
+        {\edef\externalfilter@buffer_name{\currentexternalfilter-\externalfilterparameter{\c!cache\c!option}}}
 
    \externalfilter@set_filenames_extras
 
@@ -381,7 +380,7 @@
 \starttexdefinition externalfilter@set_filenames_extras
    % The following  macros are useful for filter= and filtercommand= options
    % The basename of the external file
-   \edef\externalfilter@base_file  {\jobname-\externalfilter@buffer_name}
+   \edef\externalfilter@base_file  {\externalfilterparameter\c!prefix\externalfilter@buffer_name}
 
    % Append directory name to the name of the input file
    \edef\externalfilter@input_file {\externalfilter@get_directory\externalfilter@base_file.\f!temporaryextension}
@@ -506,6 +505,7 @@
 
 \setupexternalfilters
   [
+   \c!prefix=\jobname-temp-,
    \c!location=\v!paragraph,
    \c!before=,
    \c!after=,
